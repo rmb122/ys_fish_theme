@@ -25,6 +25,11 @@ function fish_prompt --description 'Write out the prompt'
     fish_git_prompt (printf ' %son %sgit:%%s' (set_color grey) (set_color brwhite))
 
     printf ' %s[%s]' (set_color grey) (date "+%H:%M:%S")
+
+    if test $SHLVL -gt 2
+        printf " L:%s%d%s" (set_color cyan) (math $SHLVL - 1) (set_color normal)
+    end
+
     if test $exit_status -gt 0
         printf " C:%s$exit_status" (set_color red)
     end
