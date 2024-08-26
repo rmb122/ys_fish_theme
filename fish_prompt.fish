@@ -1,12 +1,19 @@
-set __fish_git_prompt_show_informative_status true
-set __fish_git_prompt_showupstream true
+set -g __fish_git_prompt_show_informative_status true
+set -g __fish_git_prompt_showupstream true
 
-set __fish_git_prompt_char_stateseparator ' '
+set -g __fish_git_prompt_char_stateseparator ' '
 
-set __fish_git_prompt_showcolorhints true
-set __fish_git_prompt_color_branch cyan
-set __fish_git_prompt_color_stagedstate yellow
-set __fish_git_prompt_color_cleanstate green
+set -g __fish_git_prompt_showcolorhints true
+set -g __fish_git_prompt_color_branch cyan
+set -g __fish_git_prompt_color_stagedstate yellow
+set -g __fish_git_prompt_color_cleanstate green
+
+switch (uname)
+    case Linux
+        set -g __hostname_command 'hostnamectl hostname'
+    case '*'
+        set -g __hostname_command 'hostname | cut -d . -f 1'
+end
 
 function fish_prompt --description 'Write out the prompt'
     set exit_status $status
@@ -20,7 +27,7 @@ function fish_prompt --description 'Write out the prompt'
             printf '%s%s' (set_color cyan) (whoami)
     end
 
-    printf ' %s@ %s%s %sin %s%s' (set_color grey)  (set_color green) (hostnamectl hostname|cut -d . -f 1) (set_color grey)  (set_color bryellow) (prompt_pwd)
+    printf ' %s@ %s%s %sin %s%s' (set_color grey)  (set_color green) (eval $__hostname_command) (set_color grey)  (set_color bryellow) (prompt_pwd)
     
     fish_git_prompt (printf ' %son %sgit:%%s' (set_color grey) (set_color brwhite))
 
@@ -36,4 +43,3 @@ function fish_prompt --description 'Write out the prompt'
 
     printf '\n%s$ %s' (set_color brred) (set_color normal)
 end
-
