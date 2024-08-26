@@ -8,11 +8,10 @@ set -g __fish_git_prompt_color_branch cyan
 set -g __fish_git_prompt_color_stagedstate yellow
 set -g __fish_git_prompt_color_cleanstate green
 
-switch (uname)
-    case Linux
-        set -g __hostname_command 'hostnamectl hostname'
-    case '*'
-        set -g __hostname_command 'hostname | cut -d . -f 1'
+if type -q hostname
+    set -g __hostname_command 'hostname | cut -d . -f 1'
+else
+    set -g __hostname_command 'hostnamectl hostname | cut -d . -f 1'
 end
 
 function fish_prompt --description 'Write out the prompt'
